@@ -1,0 +1,594 @@
+:root {
+  --glass: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --accent: #2ecc71;
+  --danger: #e74c3c;
+  --sidebar-w: 240px;
+  --bg: #11111d;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  background: var(--bg);
+  color: white;
+  overflow-x: hidden;
+}
+
+/* --- 1. SHARED GLASS UTILITY --- */
+.glass,
+.glass-card {
+  background: var(--glass);
+  backdrop-filter: blur(15px);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  padding: 1.5rem;
+}
+
+/* --- 2. AUTH PAGE (YOUR SPECIFIC IDs) --- */
+.auth-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: radial-gradient(circle at center, #1e1e3f, #11111d);
+}
+
+.auth-container {
+  width: 100%;
+  max-width: 420px;
+  padding: 3rem;
+  text-align: center;
+}
+
+#auth-title {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: white;
+}
+
+#auth-subtitle {
+  opacity: 0.5;
+  font-size: 0.9rem;
+}
+
+.input-group {
+  margin-bottom: 1.2rem;
+  text-align: left;
+}
+
+.input-group label {
+  display: block;
+  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
+  opacity: 0.7;
+  padding-left: 5px;
+}
+
+.input-group input,
+.glass-input {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--glass-border);
+  padding: 0.9rem;
+  border-radius: 12px;
+  color: white;
+  transition: 0.3s;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.btn-primary {
+  padding: 1rem;
+  background: var(--accent);
+  color: #111;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
+}
+
+.toggle-text {
+  margin-top: 1.5rem;
+  font-size: 0.85rem;
+  opacity: 0.6;
+}
+
+.toggle-text a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/* --- 3. LAYOUT STRUCTURE (DASHBOARD) --- */
+.app-container {
+  display: flex;
+}
+
+.sidebar {
+  width: var(--sidebar-w);
+  background: rgba(255, 255, 255, 0.02);
+  border-right: 1px solid var(--glass-border);
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  min-height: 100vh;
+  height: 100vh;
+  z-index: 1000;
+  flex-shrink: 0;
+}
+
+.sidebar-header {
+  padding: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 1px;
+}
+
+nav {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  padding: 1.2rem 2rem;
+  color: rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+  transition: 0.2s;
+}
+
+.nav-item.active,
+.nav-item:hover {
+  color: white;
+  background: rgba(255, 255, 255, 0.05);
+  border-right: 3px solid var(--accent);
+}
+
+.logout-item {
+  margin-top: auto;
+  color: var(--danger) !important;
+  border-top: 1px solid var(--glass-border);
+}
+
+.logout-item:hover {
+  color: white;
+  background: rgba(255, 255, 255, 0.05);
+  border-right: 3px solid var(--danger);
+}
+
+/* --- 4. BENTO GRID SYSTEM --- */
+.main-content {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+  height: 100vh;
+}
+
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.search-bar input {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  padding: 0.6rem 1rem;
+  border-radius: 20px;
+  color: white;
+  width: 250px;
+  transition: 0.3s;
+}
+
+.search-bar input:focus {
+  width: 300px;
+  border-color: var(--accent);
+  outline: none;
+}
+
+.profile-icon {
+  width: 40px;
+  height: 40px;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+.progress-bar {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  height: 6px;
+  border-radius: 10px;
+  margin-top: 5px;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-areas:
+    "banner banner banner balance"
+    "income expense accounts budget"
+    "history history chart chart";
+  gap: 1.5rem;
+  min-height: calc(100vh - 120px);
+  height: auto;
+}
+
+/* Area Assignments */
+.summary-banner {
+  grid-area: banner;
+}
+
+.balance-card {
+  grid-area: balance;
+}
+
+.income-card {
+  grid-area: income;
+}
+
+.expense-card {
+  grid-area: expense;
+}
+
+.card-bank {
+  grid-area: accounts;
+}
+
+.budget-plan {
+  grid-area: budget;
+}
+
+.transaction-history {
+  grid-area: history;
+  display: flex;
+  flex-direction: column;
+  max-height: 500px;
+}
+
+.transaction-list {
+  list-style: none;
+  margin-top: 1rem;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.transaction-list::-webkit-scrollbar {
+  width: 5px;
+}
+
+.transaction-list::-webkit-scrollbar-thumb {
+  background: var(--glass-border);
+  border-radius: 10px;
+}
+
+/* --- FIXED BENTO CELL STRUCTURAL ANCHOR --- */
+.chart-section.glass {
+  grid-area: chart;
+  /* CRITICAL: Safely re-anchors the element to the Bento Grid area */
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 0;
+  /* CRITICAL: Permits flex elements to shrink below content width limits without blowing up layout grids */
+  box-sizing: border-box;
+  padding: 1.5rem;
+}
+
+/* --- THE RIGID CANVAS WRAPPER LIMIT --- */
+.chart-section .chart-wrapper {
+  position: relative;
+  /* Provides a stable coordinate baseline for Chart.js */
+  width: 100%;
+  height: 240px;
+  /* Gives the graph a stable default height */
+  max-height: 240px;
+  /* Sets a hard ceiling to prevent layout scaling loops */
+  margin-top: auto;
+  /* Pushes the graph cleanly below the card headers */
+  box-sizing: border-box;
+}
+
+/* --- THE CANVAS CANVAS RENDER LAYER --- */
+#monthlyChart {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+#chartTimeFilter.glass-input {
+  background: #1e1e2f !important;
+  color: white !important;
+  border: 1px solid var(--glass-border);
+  cursor: pointer;
+  outline: none;
+}
+
+#chartTimeFilter.glass-input option {
+  background-color: #11111d;
+  color: white;
+}
+
+/* --- 5. BUDGET PAGE 2x2 --- */
+.template-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.template-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--glass-border);
+  padding: 1.5rem;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+  text-align: center;
+}
+
+.template-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-3px);
+}
+
+/* --- UTILITIES --- */
+.value {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.positive {
+  color: var(--accent);
+}
+
+.negative {
+  color: var(--danger);
+}
+
+.hidden {
+  display: none;
+}
+
+/* The Toast Container */
+.toast-notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #2ec4b6;
+  /* Clean theme teal/green */
+  color: white;
+  padding: 15px 25px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  font-weight: bold;
+  z-index: 9999;
+  transform: translateY(-20px);
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Class to trigger slide-in and visibility */
+.toast-notification.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Issue 8: Smooth alert box for failed auth attempts */
+.error-banner {
+  background-color: rgba(230, 76, 76, 0.15);
+  color: #e64c4c;
+  border: 1px solid rgba(230, 76, 76, 0.3);
+  padding: 10px 15px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+  text-align: center;
+  font-weight: 500;
+}
+
+/* Issue 8: Smooth alert box for successful login/registration */
+.success-banner {
+  background-color: rgba(46, 196, 182, 0.15);
+  color: #2ec4b6;
+  /* Matches your transaction toast theme! */
+  border: 1px solid rgba(46, 196, 182, 0.3);
+  padding: 10px 15px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+  text-align: center;
+  font-weight: 500;
+}
+
+/* --- RESPONSIVE DESIGN --- */
+
+/* 1. TABLET VIEW (Under 1024px) */
+@media (max-width: 1024px) {
+  .dashboard-grid {
+    /* Switch to 2 columns */
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas:
+      "banner banner"
+      "balance income"
+      "expense accounts"
+      "budget budget"
+      "chart chart"
+      "history history";
+    height: auto;
+  }
+
+  .sidebar {
+    width: 80px;
+    /* Collapse sidebar to icons only */
+  }
+
+  .nav-label {
+    display: none;
+    /* Hide text in sidebar */
+  }
+
+  .logo {
+    display: block;
+    font-size: 1em;
+  }
+}
+
+/* 2. MOBILE VIEW (Under 768px) */
+@media (max-width: 768px) {
+  .app-container {
+    flex-direction: column;
+    height: 100vh;
+    /* overflow-y: auto; */
+  }
+
+  .sidebar {
+    /* Reset vertical behavior */
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    /* Important: removes any inherited 100vh */
+    position: relative;
+    flex-direction: row;
+
+    /* Layout & Spacing */
+    padding: 0.5rem 1rem;
+    justify-content: space-between;
+    align-items: center;
+    border-right: none;
+    border-bottom: 1px solid var(--glass-border);
+  }
+
+  .sidebar-header {
+    padding: 1rem;
+    margin: 0;
+    border-bottom: none;
+  }
+
+  .logo {
+    display: block;
+    font-size: 1rem;
+  }
+
+  #toggle-btn {
+    display: none;
+  }
+
+  nav {
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    padding: 0.5rem 0;
+  }
+
+  .nav-item {
+    padding: 0.5rem;
+    /* Small, tight clickable area */
+    border-right: none;
+    height: 40px;
+    /* Force a slim height */
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+  }
+
+  .nav-item.active,
+  .nav-item:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.05);
+    border-bottom: 3px solid var(--accent);
+  }
+
+  .nav-label {
+    display: none;
+    /* Keep it clean with icons only */
+  }
+
+  .nav-item.active {
+    border: none;
+    background: var(--glass);
+  }
+
+  .logout-item {
+    margin-top: 0;
+    border-top: none;
+  }
+
+  .logout-item:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.05);
+    border-bottom: 3px solid var(--danger);
+  }
+
+  /* Adjust Main Content to not hide under the nav */
+  .main-content {
+    padding: 1rem;
+    height: auto;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "banner"
+      "balance"
+      "income"
+      "expense"
+      "budget"
+      "accounts"
+      "chart"
+      "history";
+    gap: 1rem;
+    height: auto;
+  }
+
+  .top-nav {
+    flex-direction: row;
+    /* Keep search and profile side-by-side */
+    justify-content: space-between;
+  }
+
+  .search-bar input {
+    width: 150px;
+    /* Smaller search for mobile */
+  }
+}

@@ -1,0 +1,12 @@
+frontend:
+  replicas: 2
+  image: aungmyinmyintmyat/finance-frontend:v2
+  containerPort: 80
+
+backend:
+  replicas: 2
+  image: aungmyinmyintmyat/finance-backend:v2
+  containerPort: 8080
+
+ingress:
+  host: ammm.website

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Budget Plans | FinanceTracker</title>
+    <script>
+        if (!localStorage.getItem('token')) {
+            window.location.replace("login.html");
+        }
+    </script>
+    <link rel="stylesheet" href="style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">COZY</div>
+            </div>
+            <nav>
+                <a href="index.html" class="nav-item">🏠 <span class="nav-label">Home</span></a>
+                <a href="analytics.html" class="nav-item">📊 <span class="nav-label">Analytics</span></a>
+                <a href="history.html" class="nav-item">🕒 <span class="nav-label">History</span></a>
+                <a href="budget.html" class="nav-item active">📅 <span class="nav-label">Budget</span></a>
+                <a href="transaction.html" class="nav-item">➕ <span class="nav-label">Add New</span></a>
+                <a href="#" id="logout-link" class="nav-item logout-item">🚪 <span class="nav-label">Logout</span></a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="page-header">
+                <h1>Budget Plans</h1>
+                <p style="opacity: 0.6;">Select a professional preset or build your own.</p>
+            </header>
+
+            <section class="glass" style="margin-top: 2rem;">
+                <h3>Popular Plans</h3>
+                <div class="template-container">
+                    <div class="template-card" onclick="applyPreset('Student')">
+                        <div class="icon">🎓</div>
+                        <h4>Student</h4>
+                        <p>Focus on Rent & Groceries.</p>
+                        <div class="mini-tag">50/30/20 Rule</div>
+                    </div>
+                    <div class="template-card" onclick="applyPreset('Freelancer')">
+                        <div class="icon">💻</div>
+                        <h4>Freelancer</h4>
+                        <p>Taxes and Software gear.</p>
+                        <div class="mini-tag">Variable Income</div>
+                    </div>
+                    <div class="template-card" onclick="applyPreset('Professional')">
+                        <div class="icon">🏥</div>
+                        <h4>Healthcare</h4>
+                        <p>Retirement and Debt paydown.</p>
+                        <div class="mini-tag">Wealth Builder</div>
+                    </div>
+                    <div class="template-card" onclick="toggleCustomForm()">
+                        <div class="icon">🛠️</div>
+                        <h4>Custom</h4>
+                        <p>Define your own Plan!</p>
+                        <div class="mini-tag">Manual Entry</div>
+                    </div>
+                </div>
+
+                <div id="custom-budget-form" class="hidden"
+                    style="margin-top: 2rem; border-top: 1px solid var(--glass-border); padding-top: 2rem;">
+                    <h4>Building Your Custom Plan</h4>
+                    <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                        <select id="cust-cat" class="glass" style="flex: 1; padding: 0.5rem; background:white;">
+                            <option value="1">Housing/Rent</option>
+                            <option value="2">Groceries</option>
+                            <option value="3">Transport</option>
+                            <option value="4">Utilities</option>
+                            <option value="5">Entertainment</option>
+                            <option value="6">Healthcare</option>
+                            <option value="7">Savings/Investments</option>
+                            <option value="8">Misc</option>
+                        </select>
+                        <input type="number" id="cust-lim" placeholder="Limit ($)" class="glass" style="flex: 1;"
+                            onwheel="this.blur()">
+                        <button class="btn-primary" onclick="addToDraft()">+</button>
+                    </div>
+                    <ul id="draft-list" class="transaction-list"></ul>
+                    <button id="save-plan-action" class="btn-primary hidden" onclick="saveCustomPlan()"
+                        style="width: 100%; margin-top: 1rem;">Save Full Plan</button>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="js/api.js"></script>
+    <script src="js/budget-logic.js"></script>
+    <script>
+        document.getElementById('logout-link').onclick = () => { localStorage.removeItem('token'); window.location.href = 'login.html'; };
+        function toggleCustomForm() { document.getElementById('custom-budget-form').classList.toggle('hidden'); }
+    </script>
+</body>
+
+</html>

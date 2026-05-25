@@ -1,0 +1,49 @@
+# 3. BACKEND
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+spec:
+  # type: ClusterIP
+  ports:
+    - port: 8080
+  selector:
+    app: backend
+---
+apiVersion: apps/apps/v1
+kind: Deployment
+metadata:
+  name: backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: aungmyinmyintmyat/finance-backend:v2 # latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        env:
+        - name: DB_HOST
+          value: "mysql"
+        - name: DB_USER
+          value: "root"
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: finance-secrets
+              key: db-password
+        - name: DB_NAME
+          value: "finance_db"
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: finance-secrets
+              key: jwt-secret

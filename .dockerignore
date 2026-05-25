@@ -1,0 +1,6 @@
+.git
+node_modules
+k8s/
+db/
+*.log
+npm-debug.log

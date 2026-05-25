@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction History | FinanceTracker</title>
+    <script>
+        if (!localStorage.getItem('token')) {
+            window.location.replace("login.html");
+        }
+    </script>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">COZY</div>
+            </div>
+            <nav>
+                <a href="index.html" class="nav-item">🏠 <span class="nav-label">Home</span></a>
+                <a href="analytics.html" class="nav-item">📊 <span class="nav-label">Analytics</span></a>
+                <a href="history.html" class="nav-item active">🕒 <span class="nav-label">History</span></a>
+                <a href="budget.html" class="nav-item">📅 <span class="nav-label">Budget</span></a>
+                <a href="transaction.html" class="nav-item">➕ <span class="nav-label">Add New</span></a>
+                <a href="#" id="logout-link" class="nav-item logout-item">🚪 <span class="nav-label">Logout</span></a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-nav">
+                <h1>History</h1>
+                <div class="search-bar">
+                    <input type="text" id="history-search" placeholder="Search by name or category...">
+                </div>
+            </header>
+
+            <section class="glass">
+                <div style="overflow-x: auto;">
+                    <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                        <thead>
+                            <tr style="border-bottom: 1px solid var(--glass-border); opacity: 0.5; font-size: 0.8rem;">
+                                <th style="padding: 1rem;">DATE</th>
+                                <th style="padding: 1rem;">DESCRIPTION</th>
+                                <th style="padding: 1rem;">CATEGORY</th>
+                                <th style="padding: 1rem; text-align: right;">AMOUNT</th>
+                            </tr>
+                        </thead>
+                        <tbody id="full-history-list">
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="js/api.js"></script>
+    <script src="js/history-logic.js"></script>
+    <script>
+        document.getElementById('logout-link').onclick = () => { localStorage.removeItem('token'); window.location.href = 'login.html'; };
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home | FinanceTracker</title>
+  <script>
+    if (!localStorage.getItem('token')) {
+      window.location.replace("login.html");
+    }
+  </script>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">COZY</div>
+      </div>
+      <nav>
+        <a href="index.html" class="nav-item active">🏠 <span class="nav-label">Home</span></a>
+        <a href="analytics.html" class="nav-item">📊 <span class="nav-label">Analytics</span></a>
+        <a href="history.html" class="nav-item">🕒 <span class="nav-label">History</span></a>
+        <a href="budget.html" class="nav-item">📅 <span class="nav-label">Budget</span></a>
+        <a href="transaction.html" class="nav-item">➕ <span class="nav-label">Add New</span></a>
+        <a href="#" id="logout-link" class="nav-item logout-item">🚪 <span class="nav-label">Logout</span></a>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <header class="top-nav">
+        <h1>Overview</h1>
+        <div class="nav-actions">
+          <div class="search-bar"><input type="text" placeholder="Search..."></div>
+          <div class="profile-icon">👤</div>
+        </div>
+      </header>
+
+      <div class="dashboard-grid">
+        <section class="summary-banner glass">
+          <h2>Welcome back!</h2>
+          <p></p>
+          <div id="budget-alert-zone"></div>
+        </section>
+        <section class="balance-card glass"><span class="label">Balance</span>
+          <p class="value" id="net-balance">$0.00</p>
+        </section>
+        <section class="income-card glass"><span class="label">Income</span>
+          <p class="value positive" id="total-income">+$0.00</p>
+        </section>
+        <section class="expense-card glass"><span class="label">Expenses</span>
+          <p class="value negative" id="total-expense">-$0.00</p>
+        </section>
+        <section class="budget-plan glass">
+          <h3>Budget</h3>
+          <div id="dashboard-budget-list"></div>
+        </section>
+        <section class="transaction-history glass">
+          <h3>Recent</h3>
+          <ul id="transaction-list" class="transaction-list"></ul>
+        </section>
+        <section class="card-bank glass">
+          <h3>Account</h3>
+          <p id="display-account-num">**** 4421</p>
+        </section>
+        <section class="chart-section glass">
+          <h3>CashFlow Overview</h3><br>
+          <div class="chart-filter-container" style="display: flex; justify-content: flex-end; margin-bottom: 10px;">
+            <select id="chartTimeFilter" class="glass-input"
+              style="padding: 5px 10px; border-radius: 6px; background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.1);">
+              <option value="days">Daily View</option>
+              <option value="weeks">Weekly View</option>
+              <option value="months" selected>Monthly View</option>
+            </select>
+          </div>
+          <div class="chart-wrapper"><canvas id="monthlyChart"></canvas></div>
+        </section>
+      </div>
+    </main>
+  </div>
+  <script src="js/api.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script>
+    document.getElementById('logout-link').onclick = () => { localStorage.removeItem('token'); window.location.href = 'login.html'; };
+  </script>
+</body>
+
+</html>

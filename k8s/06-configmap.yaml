@@ -1,0 +1,74 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-init-script
+data:
+  init.sql: |
+    -- 1. Users
+    CREATE TABLE IF NOT EXISTS users (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        username VARCHAR(50) NOT NULL UNIQUE,
+        password VARCHAR(255) NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    ) ENGINE=InnoDB;
+
+    -- 2. User Profiles (Income/Account Info)
+    CREATE TABLE IF NOT EXISTS user_profiles (
+        user_id INT PRIMARY KEY,
+        monthly_income DECIMAL(12, 2) DEFAULT 0.00,
+        account_number VARCHAR(20), 
+        account_type ENUM('Checking', 'Savings', 'Credit') DEFAULT 'Checking',
+        currency VARCHAR(10) DEFAULT 'USD',
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    ) ENGINE=InnoDB;
+
+    -- 3. Categories (Predefined by system or custom)
+    CREATE TABLE IF NOT EXISTS categories (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(50) NOT NULL,
+        is_preset BOOLEAN DEFAULT TRUE,
+        icon VARCHAR(50), 
+        type ENUM('income', 'expense') NOT NULL
+    ) ENGINE=InnoDB;
+
+    -- 4. Budgets Plan (Limit per category)
+    CREATE TABLE IF NOT EXISTS budgets (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        user_id INT NOT NULL,
+        category_id INT NOT NULL,
+        limit_amount DECIMAL(12, 2) NOT NULL,
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+        FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE,
+        UNIQUE KEY user_cat_unique (user_id, category_id)
+    ) ENGINE=InnoDB;
+
+    -- 5. Transactions
+    CREATE TABLE IF NOT EXISTS transactions (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        user_id INT NOT NULL,
+        category_id INT NOT NULL,
+        description VARCHAR(255) NOT NULL,
+        amount DECIMAL(12, 2) NOT NULL, 
+        type ENUM('income', 'expense') NOT NULL,
+        date DATE NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+        FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE
+    ) ENGINE=InnoDB;
+
+    -- Predefined Categories Seed Data
+    INSERT IGNORE INTO categories (id, name, is_preset, icon, type) VALUES 
+    (1, 'Housing/Rent', TRUE, 'home', 'expense'),
+    (2, 'Groceries', TRUE, 'shopping_cart', 'expense'),
+    (3, 'Transport', TRUE, 'commute', 'expense'),
+    (4, 'Utilities', TRUE, 'bolt', 'expense'),
+    (5, 'Entertainment', TRUE, 'theater_comedy', 'expense'),
+    (6, 'Healthcare', TRUE, 'medical_services', 'expense'),
+    (7, 'Savings/Investments', TRUE, 'account_balance_wallet', 'expense'),
+    (8, 'Misc', TRUE, 'category', 'expense'),
+    (9, 'Salary', TRUE, 'payments', 'income'),
+    (10, 'Freelance/Side Hustle', TRUE, 'work', 'income'),
+    (11, 'Investments Yield', TRUE, 'trending_up', 'income'),
+    (12, 'Gifts/Other Income', TRUE, 'card_giftcard', 'income');
+
+

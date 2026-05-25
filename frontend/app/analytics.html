@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics | FinanceTracker</title>
+    <script>
+        if (!localStorage.getItem('token')) {
+            window.location.replace("login.html");
+        }
+    </script>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">COZY</div>
+            </div>
+            <nav>
+                <a href="index.html" class="nav-item">🏠 <span class="nav-label">Home</span></a>
+                <a href="analytics.html" class="nav-item active">📊 <span class="nav-label">Analytics</span></a>
+                <a href="history.html" class="nav-item">🕒 <span class="nav-label">History</span></a>
+                <a href="budget.html" class="nav-item">📅 <span class="nav-label">Budget</span></a>
+                <a href="transaction.html" class="nav-item">➕ <span class="nav-label">Add New</span></a>
+                <a href="#" id="logout-link" class="nav-item logout-item">🚪 <span class="nav-label">Logout</span></a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header style="margin-bottom: 2rem;">
+                <h1>Financial Analytics</h1>
+            </header>
+
+            <div class="dashboard-grid" style="grid-template-areas: 'pie pie line line' 'list list list list';">
+                <section class="glass" style="grid-area: pie;">
+                    <h3>Spending by Category</h3>
+                    <div class="chart-wrapper" style="height: 250px;">
+                        <canvas id="categoryPieChart"></canvas>
+                    </div>
+                </section>
+
+                <section class="glass" style="grid-area: line;">
+                    <h3>Income vs Expense</h3>
+                    <div class="chart-wrapper" style="height: 250px;">
+                        <canvas id="comparisonChart"></canvas>
+                    </div>
+                </section>
+
+                <section class="glass" style="grid-area: list;">
+                    <h3>Highest Spending This Month</h3>
+                    <div id="top-spending-list" class="transaction-list">
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script src="js/api.js"></script>
+    <script src="js/analytics-logic.js"></script>
+    <script>
+        document.getElementById('logout-link').onclick = () => { localStorage.removeItem('token'); window.location.href = 'login.html'; };
+    </script>
+</body>
+
+</html>
