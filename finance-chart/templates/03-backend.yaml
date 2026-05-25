@@ -1,19 +1,21 @@
-# 3. BACKEND
 apiVersion: v1
 kind: Service
 metadata:
   name: backend-service
+  namespace: {{ .Values.global.namespace | default "default" }}
 spec:
-  # type: ClusterIP
   ports:
-    - port: 8080
+    - port: {{ .Values.backend.servicePort }}
+      targetPort: {{ .Values.backend.containerPort }}
+      protocol: TCP
   selector:
     app: backend
 ---
-apiVersion: apps/apps/v1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: backend
+  namespace: {{ .Values.global.namespace | default "default" }}
 spec:
   replicas: 2
   selector:
@@ -26,10 +28,10 @@ spec:
     spec:
       containers:
       - name: backend
-        image: aungmyinmyintmyat/finance-backend:v2 # latest
+        image: {{ .Values.backend.image }}
         imagePullPolicy: Always
         ports:
-        - containerPort: 8080
+        - containerPort: {{ .Values.backend.containerPort }}
         env:
         - name: DB_HOST
           value: "mysql"

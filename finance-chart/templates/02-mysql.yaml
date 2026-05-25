@@ -14,7 +14,7 @@ metadata:
   name: mysql
 spec:
   strategy:
-    type: Recreate 
+    type: Recreate #to avoid conflicts
   selector:
     matchLabels:
       app: mysql
@@ -37,8 +37,7 @@ spec:
         - name: mysql-persistent-storage
           mountPath: /var/lib/mysql
         - name: mysql-init-storage
-          mountPath: /docker-entrypoint-initdb.d/init.sql
-          subPath: init.sql
+          mountPath: /docker-entrypoint-initdb.d
       volumes:
       - name: mysql-persistent-storage
         persistentVolumeClaim:
@@ -46,6 +45,3 @@ spec:
       - name: mysql-init-storage
         configMap:
           name: mysql-init-script
-          items:
-            - key: init.sql
-              path: init.sql

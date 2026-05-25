@@ -1,13 +1,21 @@
-# Global environmental deployment parameters
+# finance-chart/values.yaml
+
+global:
+  namespace: default
+  domain: ammm.website
+
 frontend:
-  replicas: 2
-  image: aungmyinmyintmyat/finance-frontend:v2
-  containerPort: 80
+  image: aungmyinmyintmyat/finance-frontend:latest
+  containerPort: 8080
+  servicePort: 80
 
 backend:
-  replicas: 2
-  image: aungmyinmyintmyat/finance-backend:v2
+  image: aungmyinmyintmyat/finance-backend:latest
   containerPort: 8080
+  servicePort: 5000
 
-ingress:
-  host: ammm.website
+mysql:
+  image: mysql:8.0
+  port: 3306
+  database: finance_db
+  pvcSize: 1Gi

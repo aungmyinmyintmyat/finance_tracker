@@ -16,7 +16,7 @@ data:
     CREATE TABLE IF NOT EXISTS user_profiles (
         user_id INT PRIMARY KEY,
         monthly_income DECIMAL(12, 2) DEFAULT 0.00,
-        account_number VARCHAR(20), 
+        account_number VARCHAR(20),
         account_type ENUM('Checking', 'Savings', 'Credit') DEFAULT 'Checking',
         currency VARCHAR(10) DEFAULT 'USD',
         FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
@@ -27,7 +27,7 @@ data:
         id INT AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(50) NOT NULL,
         is_preset BOOLEAN DEFAULT TRUE,
-        icon VARCHAR(50), 
+        icon VARCHAR(50),
         type ENUM('income', 'expense') NOT NULL
     ) ENGINE=InnoDB;
 
@@ -48,7 +48,7 @@ data:
         user_id INT NOT NULL,
         category_id INT NOT NULL,
         description VARCHAR(255) NOT NULL,
-        amount DECIMAL(12, 2) NOT NULL, 
+        amount DECIMAL(12, 2) NOT NULL,
         type ENUM('income', 'expense') NOT NULL,
         date DATE NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -57,18 +57,16 @@ data:
     ) ENGINE=InnoDB;
 
     -- Predefined Categories Seed Data
-    INSERT IGNORE INTO categories (id, name, is_preset, icon, type) VALUES 
-    (1, 'Housing/Rent', TRUE, 'home', 'expense'),
-    (2, 'Groceries', TRUE, 'shopping_cart', 'expense'),
-    (3, 'Transport', TRUE, 'commute', 'expense'),
-    (4, 'Utilities', TRUE, 'bolt', 'expense'),
-    (5, 'Entertainment', TRUE, 'theater_comedy', 'expense'),
-    (6, 'Healthcare', TRUE, 'medical_services', 'expense'),
-    (7, 'Savings/Investments', TRUE, 'account_balance_wallet', 'expense'),
-    (8, 'Misc', TRUE, 'category', 'expense'),
-    (9, 'Salary', TRUE, 'payments', 'income'),
-    (10, 'Freelance/Side Hustle', TRUE, 'work', 'income'),
-    (11, 'Investments Yield', TRUE, 'trending_up', 'income'),
-    (12, 'Gifts/Other Income', TRUE, 'card_giftcard', 'income');
-
-
+    INSERT INTO categories (name, is_preset, icon, type) VALUES
+    ('Housing/Rent', TRUE, 'home', 'expense'),
+    ('Groceries', TRUE, 'shopping_cart', 'expense'),
+    ('Transport', TRUE, 'commute', 'expense'),
+    ('Utilities', TRUE, 'bolt', 'expense'),
+    ('Entertainment', TRUE, 'theater_comedy', 'expense'),
+    ('Healthcare', TRUE, 'medical_services', 'expense'),
+    ('Savings/Investments', TRUE, 'account_balance_wallet', 'expense'),
+    ('Misc', TRUE, 'category', 'expense'),
+    ('Salary', TRUE, 'payments', 'income'),
+    ('Freelance/Side Hustle', TRUE, 'work', 'income'),
+    ('Investments Yield', TRUE, 'trending_up', 'income'),
+    ('Gifts/Other Income', TRUE, 'card_giftcard', 'income');

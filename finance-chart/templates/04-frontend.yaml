@@ -1,13 +1,13 @@
-# 4. FRONTEND (The UI)
 apiVersion: v1
 kind: Service
 metadata:
   name: frontend-service
+  namespace: {{ .Values.global.namespace | default "default" }}
 spec:
   type: ClusterIP
   ports:
-    - port: 80
-      targetPort: 80
+    - port: {{ .Values.frontend.servicePort }}
+      targetPort: {{ .Values.frontend.containerPort }}
   selector:
     app: frontend
 ---
@@ -15,6 +15,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: frontend
+  namespace: {{ .Values.global.namespace | default "default" }}
 spec:
   replicas: 2
   selector:
@@ -27,10 +28,10 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: aungmyinmyintmyat/finance-frontend:v2 # latest
+        image: {{ .Values.frontend.image }}
         imagePullPolicy: Always
+        ports:
+        - containerPort: {{ .Values.frontend.containerPort }}
         securityContext:
           runAsUser: 1000
           runAsGroup: 1000
-        ports:
-        - containerPort: 80
